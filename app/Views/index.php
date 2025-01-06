@@ -1654,7 +1654,8 @@
                                     <a class="btn btn-default btn-flat mt-10 mb-5" href="#">Join Now</a>
                                 </div>
                                 <div class="col-md-5">
-                                    <div class="text-center text-white font-13 pt-30 mt-5" data-countdown="2017/09/01">
+                                    <div class="text-center text-white font-13 pt-30 mt-5"
+                                        data-countdown="<?= $event['event_date']?>">
                                     </div>
                                     <!-- Final Countdown Timer Script -->
                                     <script type="text/javascript">
@@ -1857,66 +1858,35 @@
                                 Our <span class="text-theme-colored">Donors</span> say
                             </h2>
                             <div class="owl-carousel-1col" data-dots="true">
+                                <?php if (!empty($donors) && is_array($donors)): ?>
+                                <?php  foreach ($donors as $donor): ?>
+
                                 <div class="item">
                                     <div class="testimonial-wrapper text-center">
                                         <div class="thumb">
-                                            <img class="img-circle" alt="" src="images/testimonials/3.jpg" />
+                                            <img class="img-circle" alt=""
+                                                src="<?= base_url() ."/uploads/".$donor['image']; ?>" />
+
                                         </div>
                                         <div class="content pt-10">
                                             <p class="font-15 text-white">
-                                                <em>Lorem ipsum dolor sit amet, consectetur adipisicing
-                                                    elit. Neque est quasi, quas ipsam, expedita placeat
-                                                    facilis odio illo ex accusantium eaque itaque
-                                                    officiis et sit. Vero quo, impedit neque.</em>
+                                                <em><?= $donor['experience']; ?></em>
                                             </p>
                                             <i class="fa fa-quote-right font-36 mt-10 text-gray-lightgray"></i>
                                             <h4 class="author text-theme-colored mb-0">
-                                                Catherine Grace
+                                                <?= $donor['donor_name']; ?>
+
                                             </h4>
-                                            <h6 class="title text-gray mt-0 mb-15">Designer</h6>
+
+                                            <h6 class="title text-gray mt-0 mb-15"><?= $donor['job']; ?></h6>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="item">
-                                    <div class="testimonial-wrapper text-center">
-                                        <div class="thumb">
-                                            <img class="img-circle" alt="" src="images/testimonials/3.jpg" />
-                                        </div>
-                                        <div class="content pt-10">
-                                            <p class="font-15 text-white">
-                                                <em>Lorem ipsum dolor sit amet, consectetur adipisicing
-                                                    elit. Neque est quasi, quas ipsam, expedita placeat
-                                                    facilis odio illo ex accusantium eaque itaque
-                                                    officiis et sit. Vero quo, impedit neque.</em>
-                                            </p>
-                                            <i class="fa fa-quote-right font-36 mt-10 text-gray-lightgray"></i>
-                                            <h4 class="author text-theme-colored mb-0">
-                                                Catherine Grace
-                                            </h4>
-                                            <h6 class="title text-gray mt-0 mb-15">Designer</h6>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="item">
-                                    <div class="testimonial-wrapper text-center">
-                                        <div class="thumb">
-                                            <img class="img-circle" alt="" src="images/testimonials/3.jpg" />
-                                        </div>
-                                        <div class="content pt-10">
-                                            <p class="font-15 text-white">
-                                                <em>Lorem ipsum dolor sit amet, consectetur adipisicing
-                                                    elit. Neque est quasi, quas ipsam, expedita placeat
-                                                    facilis odio illo ex accusantium eaque itaque
-                                                    officiis et sit. Vero quo, impedit neque.</em>
-                                            </p>
-                                            <i class="fa fa-quote-right font-36 mt-10 text-gray-lightgray"></i>
-                                            <h4 class="author text-theme-colored mb-0">
-                                                Catherine Grace
-                                            </h4>
-                                            <h6 class="title text-gray mt-0 mb-15">Designer</h6>
-                                        </div>
-                                    </div>
-                                </div>
+
+                                <?php endforeach; ?>
+                                <?php endif; ?>
+
+
                             </div>
                         </div>
                     </div>
@@ -2077,14 +2047,18 @@
                                 <div class="event media sm-maxwidth400 border-bottom mt-5 mb-0 pt-10 pb-15">
                                     <div class="row">
                                         <div class="col-xs-2 col-md-3 pr-0">
+                                            <?php
+                                            $dateString =  $event['event_date']; // Input date in dd/mm/yyyy format
+                                            $date = DateTime::createFromFormat('Y-m-d', $dateString); // Parse the date
+                                            ?>
                                             <div
                                                 class="event-date text-center border-theme-color-1px p-0 pt-10 pb-10 sm-custom-style">
                                                 <ul>
                                                     <li class="font-28 text-theme-colored font-weight-700">
-                                                        28
+                                                        <?= $date->format('d')?>
                                                     </li>
                                                     <li class="font-18 text-theme-colored text-center text-uppercase">
-                                                        Feb
+                                                        <?= $date->format('M')?>
                                                     </li>
                                                 </ul>
                                             </div>
@@ -2092,150 +2066,41 @@
                                         <div class="col-xs-9 pr-10 pl-10">
                                             <div class="event-content mt-10 p-5 pb-0 pt-0">
                                                 <h5 class="media-heading font-16 font-weight-600">
-                                                    <a href="#">Event: Help The Children</a>
+                                                    <a href="#"><?= $event['event_name']?></a>
                                                 </h5>
                                                 <ul class="list-inline font-weight-600 text-gray-dimgray">
                                                     <li>
                                                         <i class="fa fa-clock-o text-theme-colored"></i>
-                                                        5.00 pm - 7.30 pm
+                                                        <?= $event['start_time']?> - <?= $event['end_time']?>
                                                     </li>
                                                     <li>
                                                         <i class="fa fa-map-marker text-theme-colored"></i>
-                                                        25 Newyork City.
+                                                        <?= $event['location']?>
                                                     </li>
                                                 </ul>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-
-
-                                <!-- <div class="event media sm-maxwidth400 border-bottom mt-5 mb-0 pt-10 pb-15">
-                    <div class="row">
-                      <div class="col-xs-2 col-md-3 pr-0">
-                        <div
-                          class="event-date text-center border-theme-color-1px p-0 pt-10 pb-10 sm-custom-style"
-                        >
-                          <ul>
-                            <li
-                              class="font-28 text-theme-colored font-weight-700"
-                            >
-                              26
-                            </li>
-                            <li
-                              class="font-18 text-theme-colored text-center text-uppercase"
-                            >
-                              OCT
-                            </li>
-                          </ul>
-                        </div>
-                      </div>
-                      <div class="col-xs-9 pr-10 pl-10">
-                        <div class="event-content mt-10 p-5 pb-0 pt-0">
-                          <h5 class="media-heading font-16 font-weight-600">
-                            <a href="#">Event: Foods For Poor</a>
-                          </h5>
-                          <ul
-                            class="list-inline font-weight-600 text-gray-dimgray"
-                          >
-                            <li>
-                              <i class="fa fa-clock-o text-theme-colored"></i>
-                              6.00 pm - 8.30 pm
-                            </li>
-                            <li>
-                              <i
-                                class="fa fa-map-marker text-theme-colored"
-                              ></i>
-                              25 Newyork City.
-                            </li>
-                          </ul>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="event media sm-maxwidth400 mt-5 mb-0 pt-10 pb-15">
-                    <div class="row">
-                      <div class="col-xs-2 col-md-3 pr-0">
-                        <div
-                          class="event-date text-center border-theme-color-1px p-0 pt-10 pb-10 sm-custom-style"
-                        >
-                          <ul>
-                            <li
-                              class="font-28 text-theme-colored font-weight-700"
-                            >
-                              12
-                            </li>
-                            <li
-                              class="font-18 text-theme-colored text-center text-uppercase"
-                            >
-                              DEC
-                            </li>
-                          </ul>
-                        </div>
-                      </div>
-                      <div class="col-xs-9 pr-10 pl-10">
-                        <div class="event-content mt-10 p-5 pb-0 pt-0">
-                          <h5 class="media-heading font-16 font-weight-600">
-                            <a href="#">Event: Save The Water</a>
-                          </h5>
-                          <ul
-                            class="list-inline font-weight-600 text-gray-dimgray"
-                          >
-                            <li>
-                              <i class="fa fa-clock-o text-theme-colored"></i>
-                              4.00 pm - 6.00 pm
-                            </li>
-                            <li>
-                              <i
-                                class="fa fa-map-marker text-theme-colored"
-                              ></i>
-                              25 Newyork City.
-                            </li>
-                          </ul>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <a href="page-event-list.html"
-                    class="btn-read-more text-theme-colored font-weight-700"
-                    >More Events</a> -->
                             </div>
 
                             <div class="col-xs-12 col-sm-6 col-md-7">
                                 <h3 class="line-bottom mt-0">See Our Gallery</h3>
                                 <div class="gallery-isotope grid-4 gutter-small clearfix" data-lightbox="gallery">
                                     <!-- Portfolio Item Start -->
+                                    <?php if (!empty($gallery) && is_array($gallery)): ?>
+                                    <?php  foreach ($gallery as $img): ?>
                                     <div class="gallery-item">
                                         <div class="thumb">
-                                            <img alt="project" src="images/gallery/gallery-sm1.jpg"
-                                                class="img-fullwidth" />
-                                            <div class="overlay-shade"></div>
-                                            <div class="icons-holder">
-                                                <div class="icons-holder-inner">
-                                                    <div
-                                                        class="styled-icons icon-sm icon-dark icon-circled icon-theme-colored">
-                                                        <a href="images/gallery/gallery-lg1.jpg"
-                                                            data-lightbox-gallery="gallery"><i
-                                                                class="fa fa-picture-o"></i></a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- Portfolio Item End -->
+                                        <img src="<?= base_url() ."/uploads/".$img['image']; ?>" alt="project" width="100" class="img-fullwidth" />
 
-                                    <!-- Portfolio Item Start -->
-                                    <div class="gallery-item">
-                                        <div class="thumb">
-                                            <img alt="project" src="images/gallery/gallery-sm2.jpg"
-                                                class="img-fullwidth" />
+                                          
                                             <div class="overlay-shade"></div>
                                             <div class="icons-holder">
                                                 <div class="icons-holder-inner">
                                                     <div
                                                         class="styled-icons icon-sm icon-dark icon-circled icon-theme-colored">
-                                                        <a href="images/gallery/gallery-lg2.jpg"
+                                                        <a href="<?= base_url() ."/uploads/".$img['image']; ?>"
                                                             data-lightbox-gallery="gallery"><i
                                                                 class="fa fa-picture-o"></i></a>
                                                     </div>
@@ -2243,206 +2108,11 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <!-- Portfolio Item End -->
 
-                                    <!-- Portfolio Item Start -->
-                                    <div class="gallery-item">
-                                        <div class="thumb">
-                                            <img alt="project" src="images/gallery/gallery-sm3.jpg"
-                                                class="img-fullwidth" />
-                                            <div class="overlay-shade"></div>
-                                            <div class="icons-holder">
-                                                <div class="icons-holder-inner">
-                                                    <div
-                                                        class="styled-icons icon-sm icon-dark icon-circled icon-theme-colored">
-                                                        <a href="images/gallery/gallery-lg3.jpg"
-                                                            data-lightbox-gallery="gallery"><i
-                                                                class="fa fa-picture-o"></i></a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- Portfolio Item End -->
-
-                                    <!-- Portfolio Item Start -->
-                                    <div class="gallery-item">
-                                        <div class="thumb">
-                                            <img alt="project" src="images/gallery/gallery-sm4.jpg"
-                                                class="img-fullwidth" />
-                                            <div class="overlay-shade"></div>
-                                            <div class="icons-holder">
-                                                <div class="icons-holder-inner">
-                                                    <div
-                                                        class="styled-icons icon-sm icon-dark icon-circled icon-theme-colored">
-                                                        <a href="images/gallery/gallery-lg4.jpg"
-                                                            data-lightbox-gallery="gallery"><i
-                                                                class="fa fa-picture-o"></i></a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- Portfolio Item End -->
-
-                                    <!-- Portfolio Item Start -->
-                                    <div class="gallery-item">
-                                        <div class="thumb">
-                                            <img alt="project" src="images/gallery/gallery-sm5.jpg"
-                                                class="img-fullwidth" />
-                                            <div class="overlay-shade"></div>
-                                            <div class="icons-holder">
-                                                <div class="icons-holder-inner">
-                                                    <div
-                                                        class="styled-icons icon-sm icon-dark icon-circled icon-theme-colored">
-                                                        <a href="images/gallery/gallery-lg5.jpg"
-                                                            data-lightbox-gallery="gallery"><i
-                                                                class="fa fa-picture-o"></i></a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- Portfolio Item End -->
-
-                                    <!-- Portfolio Item Start -->
-                                    <div class="gallery-item">
-                                        <div class="thumb">
-                                            <img alt="project" src="images/gallery/gallery-sm6.jpg"
-                                                class="img-fullwidth" />
-                                            <div class="overlay-shade"></div>
-                                            <div class="icons-holder">
-                                                <div class="icons-holder-inner">
-                                                    <div
-                                                        class="styled-icons icon-sm icon-dark icon-circled icon-theme-colored">
-                                                        <a href="images/gallery/gallery-lg6.jpg"
-                                                            data-lightbox-gallery="gallery"><i
-                                                                class="fa fa-picture-o"></i></a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- Portfolio Item End -->
-
-                                    <!-- Portfolio Item Start -->
-                                    <div class="gallery-item">
-                                        <div class="thumb">
-                                            <img alt="project" src="images/gallery/gallery-sm7.jpg"
-                                                class="img-fullwidth" />
-                                            <div class="overlay-shade"></div>
-                                            <div class="icons-holder">
-                                                <div class="icons-holder-inner">
-                                                    <div
-                                                        class="styled-icons icon-sm icon-dark icon-circled icon-theme-colored">
-                                                        <a href="images/gallery/gallery-lg7.jpg"
-                                                            data-lightbox-gallery="gallery"><i
-                                                                class="fa fa-picture-o"></i></a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- Portfolio Item End -->
-
-                                    <!-- Portfolio Item Start -->
-                                    <div class="gallery-item">
-                                        <div class="thumb">
-                                            <img alt="project" src="images/gallery/gallery-sm8.jpg"
-                                                class="img-fullwidth" />
-                                            <div class="overlay-shade"></div>
-                                            <div class="icons-holder">
-                                                <div class="icons-holder-inner">
-                                                    <div
-                                                        class="styled-icons icon-sm icon-dark icon-circled icon-theme-colored">
-                                                        <a href="images/gallery/gallery-lg8.jpg"
-                                                            data-lightbox-gallery="gallery"><i
-                                                                class="fa fa-picture-o"></i></a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- Portfolio Item End -->
-
-                                    <!-- Portfolio Item Start -->
-                                    <div class="gallery-item">
-                                        <div class="thumb">
-                                            <img alt="project" src="images/gallery/gallery-sm9.jpg"
-                                                class="img-fullwidth" />
-                                            <div class="overlay-shade"></div>
-                                            <div class="icons-holder">
-                                                <div class="icons-holder-inner">
-                                                    <div
-                                                        class="styled-icons icon-sm icon-dark icon-circled icon-theme-colored">
-                                                        <a href="images/gallery/gallery-lg9.jpg"
-                                                            data-lightbox-gallery="gallery"><i
-                                                                class="fa fa-picture-o"></i></a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- Portfolio Item End -->
-
-                                    <!-- Portfolio Item Start -->
-                                    <div class="gallery-item">
-                                        <div class="thumb">
-                                            <img alt="project" src="images/gallery/gallery-sm10.jpg"
-                                                class="img-fullwidth" />
-                                            <div class="overlay-shade"></div>
-                                            <div class="icons-holder">
-                                                <div class="icons-holder-inner">
-                                                    <div
-                                                        class="styled-icons icon-sm icon-dark icon-circled icon-theme-colored">
-                                                        <a href="images/gallery/gallery-lg10.jpg"
-                                                            data-lightbox-gallery="gallery"><i
-                                                                class="fa fa-picture-o"></i></a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- Portfolio Item End -->
-
-                                    <!-- Portfolio Item Start -->
-                                    <div class="gallery-item">
-                                        <div class="thumb">
-                                            <img alt="project" src="images/gallery/gallery-sm11.jpg"
-                                                class="img-fullwidth" />
-                                            <div class="overlay-shade"></div>
-                                            <div class="icons-holder">
-                                                <div class="icons-holder-inner">
-                                                    <div
-                                                        class="styled-icons icon-sm icon-dark icon-circled icon-theme-colored">
-                                                        <a href="images/gallery/gallery-lg11.jpg"
-                                                            data-lightbox-gallery="gallery"><i
-                                                                class="fa fa-picture-o"></i></a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- Portfolio Item End -->
-
-                                    <!-- Portfolio Item Start -->
-                                    <div class="gallery-item">
-                                        <div class="thumb">
-                                            <img alt="project" src="images/gallery/gallery-sm12.jpg"
-                                                class="img-fullwidth" />
-                                            <div class="overlay-shade"></div>
-                                            <div class="icons-holder">
-                                                <div class="icons-holder-inner">
-                                                    <div
-                                                        class="styled-icons icon-sm icon-dark icon-circled icon-theme-colored">
-                                                        <a href="images/gallery/gallery-lg12.jpg"
-                                                            data-lightbox-gallery="gallery"><i
-                                                                class="fa fa-picture-o"></i></a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    <?php endforeach; ?>
+                                    <?php endif; ?>
+                                  
+                                 
                                     <!-- Portfolio Item End -->
                                 </div>
                             </div>

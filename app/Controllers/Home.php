@@ -21,6 +21,22 @@ class Home extends BaseController
         $projectModel = new UserModel();
         $projectModel->data_get('project_fund_card', ['project_title' . 'sub_title', 'description', 'goal_fund', 'fund_raised', 'image']);
         $data['project'] = $projectModel->orderBy('id', 'DESC')->first();
+        
+        // For Donor say 
+        $donorModel = new UserModel();
+        $donorModel->data_get('donors', ['donor_name', 'job', 'experience', 'image']);
+        $data['donors'] = $donorModel->orderBy('id', 'DESC')->findAll();
+
+        // For Event
+        
+        $eventModel = new UserModel();
+        $eventModel->data_get('upcoming_events', ['event_name', 'event_date', 'start_time','end_time', 'location', 'image']);
+        $data['event'] = $eventModel->orderBy('id', 'DESC')->first();
+
+        // Gallery 
+        $galleryModel = new UserModel();
+        $galleryModel->data_get('gallery', ['image']);
+        $data['gallery'] = $galleryModel->orderBy('id', 'DESC')->findAll();
 
         // Load view with data
         return view('index', $data);
@@ -364,11 +380,11 @@ class Home extends BaseController
         $userModel = new UserModel();
         $userModel->data_get('donors', ['donor_name', 'job', 'experience', 'image']);
 
-        $data['fund'] = $userModel->find($id);
-        if (!$data['fund']) {
-            return redirect()->to('project/')->with('error', 'Fund raise not found.');
+        $data['row'] = $userModel->find($id);
+        if (!$data['row']) {
+            return redirect()->to('donor/')->with('error', 'Fund raise not found.');
         }
-        return view('admin/project_edit', $data);
+        return view('admin/donor_edit', $data);
     }
 
     public function donor_update($id)
@@ -389,7 +405,7 @@ class Home extends BaseController
             ];
 
             if ($userModel->update($id, $data)) {
-                return redirect()->to('project/')->with('error', ' not found.');
+                return redirect()->to('donor/')->with('error', ' not found.');
 
             } else {
                 return "Failed to insert data.";
@@ -405,12 +421,13 @@ class Home extends BaseController
         ];
 
         if ($userModel->update($id, $data)) {
-            return redirect()->to('fund_raise/')->with('error', ' not found.');
+            return redirect()->to('donor/')->with('error', ' not found.');
 
         } else {
             return "Failed to insert data.";
         }
     }
+
     public function donor_delete($id = null)
     {
         $userModel = new UserModel();
@@ -418,4 +435,143 @@ class Home extends BaseController
         $userModel->delete($id);
         return redirect()->back()->with('status', 'data deleted successfully');
     }
+    public function general_form()
+    {
+        $userModel = new UserModel();
+        $userModel->data_get('upcoming_events', ['event_name', 'event_date', 'start_time','end_time', 'location', 'image']);
+        $data['event'] = $userModel->orderBy('id', 'DESC')->first();
+        return view('admin/general_form',$data);
+    }
+
+    public function event_update($id)
+    {
+        $userModel = new UserModel();
+        $userModel->data_get('upcoming_events', ['event_name', 'event_date', 'start_time','end_time', 'location', 'image']);
+
+        $file = $this->request->getFile('image');
+        if ($file && $file->isValid() && !$file->hasMoved()) {
+            $imageName = $file->getRandomName();
+            $file->move('uploads/', $imageName);
+        } else {
+            $data = [
+                'event_name' => $this->request->getPost('event_name'),
+                'event_date' => $this->request->getPost('event_date'),
+                'start_time' => $this->request->getPost('start_time'),
+                'end_time' => $this->request->getPost('end_time'),
+                'event_date' => $this->request->getPost('event_date'),
+                'location' => $this->request->getPost('location'),
+            
+            
+            ];
+        
+
+            if ($userModel->update($id, $data)) {
+                return redirect()->to('general/')->with('error', ' not found.');
+
+            } else {
+                return "Failed to insert data.";
+            }
+
+        }
+        $data = [          
+            'event_name' => $this->request->getPost('event_name'),
+            'event_date' => $this->request->getPost('event_date'),
+            'start_time' => $this->request->getPost('start_time'),
+            'end_time' => $this->request->getPost('end_time'),
+            'event_date' => $this->request->getPost('event_date'),
+            'location' => $this->request->getPost('location'),
+            'image' => $imageName,
+       
+        ];
+
+        if ($userModel->update($id, $data)) {
+            return redirect()->to('general/')->with('error', ' not found.');
+
+        } else {
+            return "Failed to insert data.";
+        }
+    }
+
+    public function gallery()
+    {
+        $userModel = new UserModel();
+        $userModel->data_get('gallery', ['image']);
+        $data['gallery'] = $userModel->orderBy('id', 'DESC')->findAll();
+        return view('admin/gallery',$data);
+    }
+
+    public function gallery_save()
+    {
+        $userModel = new UserModel();
+        $userModel->data_get('gallery', ['image']);
+
+        $file = $this->request->getFile('image');
+        if ($file && $file->isValid() && !$file->hasMoved()) {
+            $imageName = $file->getRandomName();
+            $file->move('uploads/', $imageName);
+        } else {
+            // Handle the case where no file is uploaded or the file is invalid
+            return redirect()->back()->with('error', 'Please upload a valid image.');
+        }
+        $data = ['image' => $imageName];
+
+        if ($userModel->insert($data)) {
+            return redirect()->back()->with('status', 'data deleted successfully');
+
+        } else {
+            return "Failed to insert data.";
+        }
+
+    }
+    public function gallery_edit($id)
+    {
+        $userModel = new UserModel();
+        $userModel->data_get('gallery', ['image']);
+
+        $data['row'] = $userModel->find($id);
+        if (!$data['row']) {
+            return redirect()->to('gallery/')->with('error', 'Fund raise not found.');
+        }
+        return view('admin/gallery_edit', $data);
+    }
+
+    public function gallery_update($id)
+    {
+        $userModel = new UserModel();
+        $userModel->data_get('gallery', ['image']);
+
+        $file = $this->request->getFile('image');
+        if ($file && $file->isValid() && !$file->hasMoved()) {
+            $imageName = $file->getRandomName();
+            $file->move('uploads/', $imageName);
+        } else {
+            return redirect()->to('gallery/')->with('error', ' not found.');
+
+
+        }
+        $data = ['image' => $imageName];
+
+        if ($userModel->update($id, $data)) {
+            return redirect()->to('gallery/')->with('error', ' not found.');
+
+        } else {
+            return "Failed to insert data.";
+        }
+    }
+
+    public function gallery_delete($id = null)
+    {
+        $userModel = new UserModel();
+        $userModel->data_get('gallery', ['image']);
+
+        $userModel->delete($id);
+        return redirect()->back()->with('status', 'data deleted successfully');
+    }
+ 
+  
+
+
+
+
+    
 }

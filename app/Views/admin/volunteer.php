@@ -67,22 +67,23 @@
 </section>
 
 <section>
-    <div class="container-fuild p-5 mt-2">
-        <div class="d-flex justify-content-center">
+    <div class="p-5 mt-2">
+        <div class="d-flex justify-content-start">
             <div class="col-8">
                 <div class="row">
                     <div class="col-11">
                         <h1 class="mb-4">Volunteers List</h1>
                     </div>
 
-                    <div class="col ">
+                    <div class="col d-flex justify-content-end  mb-3">
                         <button type="button" class="btn btn-info " data-bs-toggle="modal"
-                            data-bs-target="#staticBackdrop"> <i class="bi bi-cloud-upload"></i> </button>
+                            data-bs-target="#staticBackdrop"> Add</button>
+                   
                     </div>
                 </div>
 
 
-                <table class="table table-success table-striped h6">
+                <table id="datatable" class="table table-success table-striped h6">
                     <thead class="table table-dark text-center">
                         <tr>
                             <th>S.No</th>

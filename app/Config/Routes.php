@@ -37,3 +37,11 @@ $routes->get('donor/edit/(:num)', 'Home::donor_edit/$1');
 $routes->post('donor/update/(:num)', 'Home::donor_update/$1');
 $routes->get('donor/delete/(:num)', 'Home::donor_delete/$1');
 
+$routes->get('general/', 'Home::general_form');
+$routes->post('event/update/(:num)', 'Home::event_update/$1');
+
+$routes->get('gallery/', 'Home::gallery');
+$routes->post('gallery_save/', 'Home::gallery_save');
+$routes->get('gallery/edit/(:num)', 'Home::gallery_edit/$1');
+$routes->post('gallery/update/(:num)', 'Home::gallery_update/$1');
+$routes->get('gallery/delete/(:num)', 'Home::gallery_delete/$1');
