@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Title</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+    <!-- Bootstrap CSS v5.2.1 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+    
+
+
+
+</head>
+
+
+<body>
+
+    <section class="insert">
+        <div class="container">
+            <!-- Button trigger modal -->
+
+
+            <!-- Modal -->
+            <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-4 text-center" id="staticBackdropLabel">Volunteer Insert</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body" style="padding:30px">
+                            <div class="align-self-center">
+                                <form action="<?= base_url('volunteer_save/') ?>" method="POST" enctype="multipart/form-data">
+                                    <div class="row mb-4">
+                                        <div class="col-4 ">
+                                            <label class="form-label ">Volunter Name:</label>
+                                        </div>
+                                        <div class="col">
+                                            <input type="text" name="volunteer_name" value="" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="row mb-4">
+                                        <div class="col-4">
+                                            <label class="form-label">Role</label>
+                                        </div>
+                                        <div class="col">
+                                            <select class="form-select" name="volunteer_role" aria-label="Default select example">
+                                                <option selected>Select for Role</option>
+                                                <option value="Senior Advisor">Senior Advisor</option>
+                                                <option value="Event Direction">Event Direction</option>
+                                                <option value="Event Planner">Event Planner</option>
+                                                <option value="Event Planner">Event Planner</option>
+                                                <option value="Communication">Communication</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-4">
+                                        <div class="col-4">
+                                            <label class="form-label">Image</label>
+                                        </div>
+                                        <div class="col ">
+                                            <input type="file" name="vol_image" value="" class="form-control">
+                                        </div>
+                                    </div>                              
+                                    <div class="">
+                                        <button type="submit" class="btn btn-primary ">Submit</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            
+            </div>
+    
+        </div>
+    </section>
+
+    <section>
+        <div class="container-fuild p-5 mt-2">
+            <div class="d-flex justify-content-center">
+                <div class="col-8">
+                    <div class="row">
+                        <div class="col-11"><h1 class="mb-4">Volunteers List</h1></div>
+                                    
+                        <div class="col ">
+                            <button type="button" class="btn btn-info " data-bs-toggle="modal" data-bs-target="#staticBackdrop"> <i class="bi bi-cloud-upload"></i>   </button>
+                        </div>
+                    </div>
+            
+                    
+                    <table class="table table-success table-striped h6">
+                        <thead class="table table-dark text-center">
+                            <tr>
+                                <th>S.No</th>
+                                <th>Photo</th>
+                                <th>Name</th>
+                                <th>Role</th>
+                                <th>Action</th>
+
+                            
+                            </tr>
+                        </thead>
+                        <tbody >
+                            <?php if (!empty($volunteers) && is_array($volunteers)): ?>
+                                <?php $i=1; foreach ($volunteers as $row): ?>
+                                    <tr class=" text-center ">
+                                        <td  class="align-content-center"><?= $i ?></td>
+                                        <td  class="align-content-center">         
+                                            <img src="<?= base_url() ."/uploads/".$row['image']; ?>" alt="row Image" width="100" height="60">
+                                        </td>
+                                        <td class="align-content-center"><p><?= $row['volunteer_name']; ?></p></td>
+                                        <td  class="align-content-center"><p class="text-center"><?= $row['role']; ?></p></td>
+                                        
+                        
+                                    
+                                        <td class =" align-content-center  btnac ">
+                                            <!-- Example actions -->
+                                            <a href="<?= base_url('volunteer/edit/' . $row['id']) ?>" class=" text-info fs-4  btn-sm"><i class="bi bi-pencil-square"></i></a>
+                                            <a href="<?= base_url('delete/' . $row['id']) ?>"class=" ps-3 fs-4 text-danger" onclick="return confirm('Are you sure you want to delete this item?')"><i class="bi bi-trash3-fill"></i></a>
+                                        </td>
+                                    </tr>
+                                <?php $i++; endforeach; ?>
+                            
+                            <?php else: ?>
+                                <tr>
+                                    <td colspan="12" class="text-center">No rows found.</td>
+                                </tr>
+                            <?php endif; ?>
+                        </tbody> 
+                    </table>
+
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    
+    <script src="https://cdn.datatables.net/2.1.8/js/dataTables.bootstrap5.js"></script>
+
+   
+    <script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
+
+    <!-- Bootstrap JavaScript Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
